@@ -1,0 +1,17 @@
+{
+ "model": "qwen2.5-1.5b",
+ "tensor": "model.layers.8.self_attn.v_proj.weight",
+ "n_codes": 393216,
+ "bits": 8,
+ "region_byte_range": [
+  28672,
+  32768
+ ],
+ "self_check_passed": true,
+ "files": {
+  "original": "codes/original_codes.u8.npy",
+  "permuted": "codes/permuted_codes.u8.npy",
+  "faulted": "codes/faulted_codes.u8.npy"
+ },
+ "note": "uint8 two-complement stored codes, row-major flat; region = codes[byte_start:byte_end]"
+}
