@@ -1,5 +1,29 @@
 # RegionAlign → hardware handoff: LLM package (Qwen2.5-1.5B, MMLU, INT8)
 
+## Deploy & run (self-contained — the RegionAlign code is bundled in `regionalign/`)
+
+```bash
+git clone git@github.com:XiaomengWang-AI/RegionAlign_hardware.git
+cd RegionAlign_hardware
+pip install -r requirements.txt
+
+# download the base model once (Qwen2.5-1.5B is public ~3 GB); set a cache dir:
+export REGIONALIGN_HF_HOME=$PWD/hf_cache
+huggingface-cli download Qwen/Qwen2.5-1.5B --revision 8faed761d45a263340a0528343f099c05c9a4323 \
+    --local-dir-use-symlinks False  # or: HF_HOME=$REGIONALIGN_HF_HOME python -c "from huggingface_hub import snapshot_download; snapshot_download('Qwen/Qwen2.5-1.5B')"
+
+# run: builds the permuted + faulted INT8 model from the base checkpoint and evaluates MMLU
+python run_asr_mmlu.py qwen2.5-1.5b__mmlu --layout permuted --mode selected
+```
+
+The script reconstructs the attacked model from the public base checkpoint + `permutation.json` +
+the recorded flips — so the repo does not ship the full 3 GB weights, only the attacked tensor's
+bytes (`codes/`). A GPU is recommended (CPU MMLU 5-shot forwards are slow). `materialize_codes.py`
+regenerates/extends `codes/` the same way.
+
+---
+
+
 One tested LLM where an attacker-chosen permutation + a few in-region bit flips crosses the attack
 success threshold. All numbers are from the frozen INT8 campaign (software fault injection).
 

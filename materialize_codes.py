@@ -15,6 +15,7 @@ Writes <model_dir>/codes/{original,permuted,faulted}_<tensor>.u8.npy and a bytes
 Read-only over the campaign; only adds files under this handoff folder.
 """
 import os, sys, json, glob
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # find the bundled regionalign/
 import numpy as np
 from regionalign.harness import core as C
 from regionalign.experiments.clean_mmlu import load_model

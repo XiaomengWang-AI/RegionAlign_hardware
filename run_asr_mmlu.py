@@ -15,6 +15,7 @@ Usage (CPU ok):
 Needs the MMLU Arrow in REGIONALIGN_HF_HOME (the campaign's dev panel); --n picks the first N dev rows.
 """
 import os, sys, json, argparse
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # find the bundled regionalign/
 import numpy as np, torch
 from regionalign.harness import core as C
 from regionalign.experiments import llm as L
